@@ -1,13 +1,13 @@
 import tkinter as tk
 import mysql.connector
-    
+from credentials import user_name,pass_word
 
 def queries(root):
         
     db = mysql.connector.connect(
         host="localhost",
-        user="root",
-        password="aditya04",
+        user=user_name,
+        password=pass_word,
         database="pharmacy"
     )
 
@@ -39,8 +39,8 @@ def queries(root):
         
         db = mysql.connector.connect(
         host="localhost",
-        user="root",
-        password="aditya04",
+        user=user_name,
+        password=pass_word,
         database="pharmacy"
        )
 

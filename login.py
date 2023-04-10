@@ -3,6 +3,7 @@ import mysql.connector
 from tkinter import messagebox
 from mgmt import mgmt
 from mysql.connector import Error
+from credentials import user_name,pass_word
 
 
 
@@ -23,8 +24,8 @@ def login(root):
       try:
         connection = mysql.connector.connect(host='localhost',
                                                 database='pharmacy',
-                                                user='root',
-                                                password='aditya04')
+                                                user=user_name,
+                                                password=pass_word)
         mycursor = connection.cursor()
         if connection.is_connected():
            # Check if the credentials exist in the database

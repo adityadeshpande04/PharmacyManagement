@@ -4,8 +4,6 @@ from mgmt import mgmt
 from queries import queries
 import tkinter as tk
 import mysql.connector
-
-
 class Application(tk.Frame):
     
 

@@ -4,6 +4,7 @@ import mysql.connector
 from tkinter import messagebox
 from datetime import datetime
 from queries import queries
+from credentials import user_name,pass_word
 
 
 def mgmt(root):
@@ -18,8 +19,8 @@ def mgmt(root):
     def add_medication():
         db = mysql.connector.connect(
         host="localhost",
-        user="root",
-        password="aditya04",
+        user=user_name,
+        password=pass_word,
         database="pharmacy"
      )
         cursor =db.cursor()
@@ -108,8 +109,8 @@ def mgmt(root):
     def sell_medication():
         db = mysql.connector.connect(
         host="localhost",
-        user="root",
-        password="aditya04",
+        user=user_name,
+        password=pass_word,
         database="pharmacy"
      )
         cursor =db.cursor()
@@ -236,8 +237,8 @@ def mgmt(root):
     def search_inventory():
         db = mysql.connector.connect(
         host="localhost",
-        user="root",
-        password="aditya04",
+        user=user_name,
+        password=pass_word,
         database="pharmacy"
         )
         cursor =db.cursor()

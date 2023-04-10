@@ -3,6 +3,7 @@ import mysql.connector
 from mysql.connector import Error
 from tkinter import messagebox
 from login import login
+from credentials import user_name,pass_word
 
 def signup(root):
         # Initialize the Tkinter window
@@ -19,8 +20,8 @@ def signup(root):
         try:
             connection = mysql.connector.connect(host='localhost',
                                                 database='pharmacy',
-                                                user='root',
-                                                password='aditya04')
+                                                user=user_name,
+                                                password=pass_word)
             if connection.is_connected():
                 # Insert new user into the database
                 cursor = connection.cursor()
