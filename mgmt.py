@@ -3,9 +3,10 @@ from tkinter import ttk
 import mysql.connector
 from tkinter import messagebox
 from datetime import datetime
+from queries import queries
 
 
-def mgmt():
+def mgmt(root):
     db = mysql.connector.connect(
         host="localhost",
         user="root",
@@ -15,6 +16,13 @@ def mgmt():
     cursor =db.cursor()
 
     def add_medication():
+        db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="aditya04",
+        database="pharmacy"
+     )
+        cursor =db.cursor()
         # Fetch medication data from Entry widgets
         name = entry_name.get()
         dosage = entry_dosage.get()
@@ -32,8 +40,14 @@ def mgmt():
         messagebox.showinfo("Success", "Medication added successfully")
 
     # Create the GUI
-    root = tk.Tk()
+    # root = tk.Tk()
     # root.geometry("800x600")
+
+    def queries_caller():
+        for widget in root.winfo_children():
+         widget.destroy()
+        queries(root)
+    
     root.title("Pharmacy Management System")
 
     # Create the left frame for adding medication
@@ -68,13 +82,37 @@ def mgmt():
     entry_manufacturer = tk.Entry(left_frame)
     entry_manufacturer.grid(row=3, column=1, padx=5, pady=5)
 
+    user_name = tk.Label(left_frame, text="User ID:")
+    user_name.grid(row=4, column=0, padx=5, pady=5)
+
+    cursor.execute("SELECT id FROM users")
+    user_ids = cursor.fetchall()
+    user_ids = [str(med_id[0]) for med_id in user_ids]
+
+    # Create a Combobox for medication IDs in the search Entry field
+    search_var = tk.StringVar()
+    search_combobox = ttk.Combobox(left_frame, textvariable=search_var, values=user_ids)
+    search_combobox.grid(row=4, column=1, padx=5, pady=5)
+
+
+
     # Add Medication Button
     btn_add_medication = tk.Button(left_frame, text="Add Medication", command=add_medication)
-    btn_add_medication.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+    btn_add_medication.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
 
+    btn_add_medication = tk.Button(left_frame, text="Statistics", command=queries_caller)
+    btn_add_medication.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
 
+    
 
     def sell_medication():
+        db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="aditya04",
+        database="pharmacy"
+     )
+        cursor =db.cursor()
         # Fetch data from GUI entries
         medication_id = medication_id_combobox.get()
         sold_quantity = int(quantity_entry.get())
@@ -163,14 +201,14 @@ def mgmt():
     lower_frame.pack(side="bottom", fill="both", expand=True)
 
     lower_title = tk.Label(lower_frame, text="Inventory", font=("Helvetica", 18))
-    lower_title.pack(pady=10)
+    lower_title.grid(row=0, column=0, padx=10, pady=10, columnspan=2)
 
     cursor.execute("SELECT * FROM inventory")
     inventory_records = cursor.fetchall()
 
     # Create listbox
     listbox = tk.Listbox(lower_frame)
-    listbox.pack(fill=tk.BOTH, expand=True)
+    listbox.grid(row=1, column=0, padx=10, pady=10, sticky="nsew", columnspan=2)
 
     # Insert inventory records into listbox
     for record in inventory_records:
@@ -179,7 +217,8 @@ def mgmt():
 
     # Create scrollbar for listbox
     scrollbar = tk.Scrollbar(lower_frame, command=listbox.yview)
-    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+    scrollbar.grid(row=1, column=2, sticky="ns")
+    listbox.config(yscrollcommand=scrollbar.set)
     listbox.config(yscrollcommand=scrollbar.set)
 
 
@@ -191,10 +230,18 @@ def mgmt():
     # Create a Combobox for medication IDs in the search Entry field
     search_var = tk.StringVar()
     search_combobox = ttk.Combobox(lower_frame, textvariable=search_var, values=medication_ids)
-    search_combobox.pack(side=tk.LEFT)
+    search_combobox.grid(row=2, column=0,)
 
     # Create Search button
     def search_inventory():
+        db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="aditya04",
+        database="pharmacy"
+        )
+        cursor =db.cursor()
+        
         # Fetch search query from Entry
         search_query = search_var.get()
 
@@ -211,9 +258,8 @@ def mgmt():
 
 
     search_button = ttk.Button(lower_frame, text="Search", command=search_inventory)
-    search_button.pack(side=tk.LEFT)
-    # Start the GUI
-    root.mainloop()
+    search_button.grid(row=3, column=1, padx=5, pady=5)
+    
 
     cursor.close()
     db.close()

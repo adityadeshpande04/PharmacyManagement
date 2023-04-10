@@ -2,10 +2,11 @@ from tkinter import *
 import mysql.connector
 from mysql.connector import Error
 from tkinter import messagebox
+from login import login
 
-def signup():
+def signup(root):
         # Initialize the Tkinter window
-    root = Tk()
+    # root = Tk()
     root.title("Sign Up")
 
     # Create a function to add new user to the database
@@ -31,10 +32,13 @@ def signup():
                 connection.close()
                 # Show a success message
                 messagebox.showinfo("Success", "User created successfully!")
+                cursor.close()
+                login(root)
         except Error as e:
             print("Error while connecting to MySQL", e)
             # Show an error message
             messagebox.showerror("Error", "Could not create user.")
+            exit()
 
     # Create labels and entry boxes for the sign-up page
     username_label = Label(root, text="Username:")
@@ -52,5 +56,4 @@ def signup():
     password_entry.pack()
     submit_button.pack()
 
-    # Run the Tkinter window
-    root.mainloop()
+    

@@ -2,7 +2,7 @@ import tkinter as tk
 import mysql.connector
     
 
-def queries():
+def queries(root):
         
     db = mysql.connector.connect(
         host="localhost",
@@ -14,8 +14,7 @@ def queries():
     # create a cursor
     cursor = db.cursor()
 
-    # create a tkinter window
-    root = tk.Tk()
+    
 
     root.title("Stats")
 
@@ -37,6 +36,16 @@ def queries():
 
     # create a function to execute the SQL queries and display the results
     def get_results():
+        
+        db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="aditya04",
+        database="pharmacy"
+       )
+
+    # create a cursor
+        cursor = db.cursor()
         # get the selected medication name from the dropdown menu
         medication_name = medication_var.get()
         
@@ -159,5 +168,4 @@ def queries():
         label10=tk.Label(right_frame,text=f"{name} : {turnover_rate}")
         label10.grid(row=6,column=1,padx=5,pady=5)
 
-    # run the tkinter event loop
-    root.mainloop()
+    
