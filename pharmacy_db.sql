@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `pharmacy` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `pharmacy`;
--- MySQL dump 10.13  Distrib 8.0.25, for macos11 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
 -- Host: localhost    Database: pharmacy
 -- ------------------------------------------------------
@@ -34,7 +34,7 @@ CREATE TABLE `inventory` (
   PRIMARY KEY (`id`),
   KEY `medication_id` (`medication_id`),
   CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`medication_id`) REFERENCES `medications` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `inventory` (
 
 LOCK TABLES `inventory` WRITE;
 /*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
-INSERT INTO `inventory` VALUES (1,1,90,'2022-12-04','2023-04-04 23:08:12',20);
+INSERT INTO `inventory` VALUES (1,1,100,'2024-12-12','2023-04-11 11:53:29',20),(2,2,100,'2024-11-12','2023-04-11 11:55:09',200),(3,3,100,'2024-10-12','2023-04-11 11:55:55',70),(4,4,100,'2024-09-12','2023-04-11 11:56:14',65),(5,5,100,'2024-09-12','2023-04-11 11:59:06',150),(6,6,100,'2024-11-12','2023-04-11 11:59:32',110),(7,7,100,'2024-11-12','2023-04-11 12:00:13',95),(8,8,100,'2024-07-12','2023-04-11 12:00:39',300),(9,9,100,'2024-07-12','2023-04-11 12:00:53',30),(10,10,100,'2024-07-12','2023-04-11 12:01:05',75);
 /*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,7 +64,7 @@ CREATE TABLE `medications` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `medications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,7 +73,7 @@ CREATE TABLE `medications` (
 
 LOCK TABLES `medications` WRITE;
 /*!40000 ALTER TABLE `medications` DISABLE KEYS */;
-INSERT INTO `medications` VALUES (1,1,'combiflam','10mg','pharma','2023-04-04 22:30:48'),(2,1,'alegra','1mg','pharma','2023-04-09 00:57:18');
+INSERT INTO `medications` VALUES (1,1,'combiflam','10mg','pharma','2023-04-04 22:30:48'),(2,1,'alegra','1mg','pharma','2023-04-09 00:57:18'),(3,1,'Crocin','500mg','inexa pharma','2023-04-10 18:31:37'),(4,1,'Etody','500mg','inexa pharma','2023-04-10 18:36:50'),(5,1,'Gelusil','250mg','Pfizer','2023-04-10 18:43:07'),(6,1,'Pan-D','500mg','Pfizer','2023-04-10 18:43:18'),(7,1,'Ofloxin','300mg','inexa pharma','2023-04-10 18:43:24'),(8,1,'O2','750mg','Inexa pharma','2023-04-10 18:43:37'),(9,1,'Wikoryl','500mg','Pfizer','2023-04-10 18:43:39'),(10,1,'DOLO','650mg','Pfizer','2023-04-10 18:43:48');
 /*!40000 ALTER TABLE `medications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,4 +180,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-10 22:24:47
+-- Dump completed on 2023-04-11 17:41:51

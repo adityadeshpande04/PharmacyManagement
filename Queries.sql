@@ -57,7 +57,7 @@ JOIN sales_records ON medications.id = sales_records.medication_id
 JOIN sales ON sales_records.id = sales.sales_record_id
 JOIN inventory ON medications.id = inventory.medication_id
 WHERE sales_records.date_sold >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
-GROUP BY medication_id
+GROUP BY name
 ORDER BY avg_profit_margin DESC;
 
 /* medication that have lowest turnover rate */

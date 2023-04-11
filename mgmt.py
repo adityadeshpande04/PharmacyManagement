@@ -10,8 +10,8 @@ from credentials import user_name,pass_word
 def mgmt(root):
     db = mysql.connector.connect(
         host="localhost",
-        user="root",
-        password="aditya04",
+        user=user_name,
+        password= pass_word,
         database="pharmacy"
     )
     cursor =db.cursor()
@@ -30,7 +30,7 @@ def mgmt(root):
         manufacturer = entry_manufacturer.get()
         
         # Fetch current user ID (you may replace this with your actual code to get the current user ID)
-        user_id = 1
+        user_id = user_search_combobox.get()
         
         # Insert medication data into database
         cursor.execute("INSERT INTO medications (name, dosage, manufacturer, user_id) VALUES (%s, %s, %s, %s)",
@@ -40,9 +40,27 @@ def mgmt(root):
         # Show success message
         messagebox.showinfo("Success", "Medication added successfully")
 
-    # Create the GUI
-    # root = tk.Tk()
-    # root.geometry("800x600")
+    
+
+    def add_to_inventory():
+     # Get input values
+      db = mysql.connector.connect(
+        host="localhost",
+        user=user_name,
+        password=pass_word,
+        database="pharmacy"
+       )
+      cursor =db.cursor()
+      
+      med_quantity = med_quantity_entry1.get()
+      med_exp_date = med_exp_date_entry1.get()
+      med_price = int(med_price_entry1.get())
+      med_id=medication_id_combobox1.get()
+      # Insert new medication and quantity into inventory table
+      cursor.execute("INSERT INTO inventory (medication_id, quantity, expiration_date, selling_price) VALUES (%s, %s, %s, %s)",(med_id,med_quantity,med_exp_date,med_price))
+      db.commit()
+
+
 
     def queries_caller():
         for widget in root.winfo_children():
@@ -83,8 +101,8 @@ def mgmt(root):
     entry_manufacturer = tk.Entry(left_frame)
     entry_manufacturer.grid(row=3, column=1, padx=5, pady=5)
 
-    user_name = tk.Label(left_frame, text="User ID:")
-    user_name.grid(row=4, column=0, padx=5, pady=5)
+    user_id_label = tk.Label(left_frame, text="User ID:")
+    user_id_label.grid(row=4, column=0, padx=5, pady=5)
 
     cursor.execute("SELECT id FROM users")
     user_ids = cursor.fetchall()
@@ -92,8 +110,8 @@ def mgmt(root):
 
     # Create a Combobox for medication IDs in the search Entry field
     search_var = tk.StringVar()
-    search_combobox = ttk.Combobox(left_frame, textvariable=search_var, values=user_ids)
-    search_combobox.grid(row=4, column=1, padx=5, pady=5)
+    user_search_combobox = ttk.Combobox(left_frame, textvariable=search_var, values=user_ids)
+    user_search_combobox.grid(row=4, column=1, padx=5, pady=5)
 
 
 
@@ -103,6 +121,42 @@ def mgmt(root):
 
     btn_add_medication = tk.Button(left_frame, text="Statistics", command=queries_caller)
     btn_add_medication.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
+
+    label_add_medication1 = tk.Label(left_frame, text="Add Stock", font=("Helvetica", 16))
+    label_add_medication1.grid(row=9, column=0, columnspan=2, padx=10, pady=10)
+
+
+
+    medication_id_label1 = tk.Label(left_frame, text="Medication ID:")
+    medication_id_label1.grid(row=10, column=0, padx=5, pady=5)
+
+    # Fetch medication IDs from database
+    cursor.execute("SELECT id FROM medications")
+    medication_ids1 = cursor.fetchall()
+    medication_ids1 = [str(med_id[0]) for med_id in medication_ids1]
+
+    # You can fetch the medication IDs from the medication table in the database and populate the combobox here
+    medication_id_var1 = tk.StringVar()
+    medication_id_combobox1 = ttk.Combobox(left_frame, textvariable=medication_id_var1, values=medication_ids1)
+    medication_id_combobox1.grid(row=10,column=1,padx=5,pady=5)
+
+    med_quantity_label1 = tk.Label(left_frame, text="Quantity:")
+    med_quantity_label1.grid(row=11, column=0, padx=5, pady=5)
+    med_quantity_entry1 = tk.Entry(left_frame)
+    med_quantity_entry1.grid(row=11, column=1, padx=5, pady=5)
+
+    med_exp_date_label1 = tk.Label(left_frame, text="Expiration Date (yyyy-mm-dd):")
+    med_exp_date_label1.grid(row=12, column=0, padx=5, pady=5)
+    med_exp_date_entry1 = tk.Entry(left_frame)
+    med_exp_date_entry1.grid(row=12, column=1, padx=5, pady=5)
+
+    med_price_label1 = tk.Label(left_frame, text="Selling Price:")
+    med_price_label1.grid(row=13, column=0, padx=5, pady=5)
+    med_price_entry1 = tk.Entry(left_frame)
+    med_price_entry1.grid(row=13, column=1, padx=5, pady=5)
+
+    btn_add_medication = tk.Button(left_frame, text="Add Medication Stock", command=add_to_inventory)
+    btn_add_medication.grid(row=14, column=0, columnspan=2, padx=10, pady=10)
 
     
 
@@ -162,7 +216,7 @@ def mgmt(root):
     fName_entry = tk.Entry(right_frame)
     fName_entry.grid(row=1, column=1, padx=5, pady=5)
 
-    lName_label = tk.Label(right_frame, text="First Name:")
+    lName_label = tk.Label(right_frame, text=" Last Name:")
     lName_label.grid(row=2, column=0, padx=5, pady=5)
 
     lName_entry = tk.Entry(right_frame)
@@ -259,7 +313,7 @@ def mgmt(root):
 
 
     search_button = ttk.Button(lower_frame, text="Search", command=search_inventory)
-    search_button.grid(row=3, column=1, padx=5, pady=5)
+    search_button.grid(row=2, column=1, padx=5, pady=5)
     
 
     cursor.close()

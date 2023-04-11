@@ -79,7 +79,7 @@ def queries(root):
     cursor = db.cursor()
     cursor.execute(query)
     result = cursor.fetchall()
-    label = tk.Label(right_frame, text="Medications expiring soon:\n")
+    label = tk.Label(right_frame, text="Medications expiring in the next 30 days:\n")
     label.grid(row=0,column=0, padx=5, pady=5)
     listbox = tk.Listbox(right_frame)
     listbox.grid(row=0,column=1, padx=5, pady=5)
@@ -141,23 +141,23 @@ def queries(root):
 
 
     # medication that have highest profit margin
-    # cursor.execute("SELECT name, AVG(price - selling_price) AS avg_profit_margin FROM medications JOIN sales_records ON medications.id = sales_records.medication_id JOIN sales ON sales_records.id = sales.sales_record_id JOIN inventory ON medications.id = inventory.medication_id WHERE sales.date_sold >= DATE_SUB(NOW(), INTERVAL 6 MONTH) GROUP BY medication_id ORDER BY avg_profit_margin DESC")
-    # results = cursor.fetchall()
-    # label8 = tk.Label(right_frame, text="Medication Profit Margins:", font=("Arial Bold", 16))
-    # label8.grid(row=5,column=0,padx=5,pady=5)
-    # table = tk.Frame(right_frame)
-    # table.grid(row=5,column=1,padx=5,pady=5)
-    # name_header = tk.Label(table, text="Name", font=("Arial Bold", 12))
-    # name_header.grid(row=0, column=0)
-    # profit_margin_header = tk.Label(table, text="Profit Margin", font=("Arial Bold", 12))
-    # profit_margin_header.grid(row=0, column=1)
-    # row_num = 1
-    # for result in results:
-    #     name = tk.Label(table, text=result[0])
-    #     name.grid(row=row_num, column=0)
-    #     profit_margin = tk.Label(table, text=result[1])
-    #     profit_margin.grid(row=row_num, column=1)
-    #     row_num += 1
+    cursor.execute("SELECT name, AVG(price - selling_price) AS avg_profit_margin FROM medications JOIN sales_records ON medications.id = sales_records.medication_id JOIN sales ON sales_records.id = sales.sales_record_id JOIN inventory ON medications.id = inventory.medication_id WHERE sales_records.date_sold >= DATE_SUB(NOW(), INTERVAL 6 MONTH) GROUP BY name ORDER BY avg_profit_margin DESC")
+    results = cursor.fetchall()
+    label8 = tk.Label(right_frame, text="Medication Profit Margins:")
+    label8.grid(row=5,column=0,padx=5,pady=5)
+    table = tk.Frame(right_frame)
+    table.grid(row=5,column=1,padx=5,pady=5)
+    name_header = tk.Label(table, text="Name")
+    name_header.grid(row=0, column=0)
+    profit_margin_header = tk.Label(table, text="Profit Margin")
+    profit_margin_header.grid(row=0, column=1)
+    row_num = 1
+    for result in results:
+        name = tk.Label(table, text=result[0])
+        name.grid(row=row_num, column=0)
+        profit_margin = tk.Label(table, text=result[1])
+        profit_margin.grid(row=row_num, column=1)
+        row_num += 1
 
 
     # medication that have lowest turnover rate
